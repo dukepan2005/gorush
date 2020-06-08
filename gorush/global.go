@@ -1,6 +1,8 @@
 package gorush
 
 import (
+	"net/http"
+
 	"github.com/appleboy/gorush/config"
 	"github.com/appleboy/gorush/storage"
 
@@ -26,4 +28,8 @@ var (
 	StatStorage storage.Storage
 	// MaxConcurrentIOSPushes pool to limit the number of concurrent iOS pushes
 	MaxConcurrentIOSPushes chan struct{}
+	// FeedbackClient is one http client for send feedback request
+	FeedbackClient *http.Client
+	// FeedbackTransport is transport of feedback http client
+	FeedbackTransport *http.Transport
 )
