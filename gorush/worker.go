@@ -3,12 +3,21 @@ package gorush
 import (
 	"context"
 	"errors"
+	"net"
+	"net/http"
 	"sync"
+	"time"
 )
 
 // InitWorkers for initialize all workers.
 func InitWorkers(ctx context.Context, wg *sync.WaitGroup, workerNum int64, queueNum int64) {
 	LogAccess.Info("worker number is ", workerNum, ", queue number is ", queueNum)
+	FeedbackTransport = &http.Transport{
+		Dial: (&net.Dialer{
+			Timeout: 5 * time.Second,
+		}).Dial,
+		TLSHandshakeTimeout: 5 * time.Second,
+	}
 	QueueNotification = make(chan PushNotification, queueNum)
 	for i := int64(0); i < workerNum; i++ {
 		go startWorker(ctx, wg, i)

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"net"
 	"net/http"
 	"time"
 )
@@ -25,15 +24,15 @@ func DispatchFeedback(log LogPushEntry, url string, timeout int64) error {
 	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(payload))
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 
-	var transport = &http.Transport{
-		Dial: (&net.Dialer{
-			Timeout: 5 * time.Second,
-		}).Dial,
-		TLSHandshakeTimeout: 5 * time.Second,
-	}
+	// var transport = &http.Transport{
+	// 	Dial: (&net.Dialer{
+	// 		Timeout: 5 * time.Second,
+	// 	}).Dial,
+	// 	TLSHandshakeTimeout: 5 * time.Second,
+	// }
 	var client = &http.Client{
 		Timeout:   time.Duration(timeout) * time.Second,
-		Transport: transport,
+		Transport: FeedbackTransport,
 	}
 
 	resp, err := client.Do(req)
