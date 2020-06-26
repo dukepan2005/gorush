@@ -28,5 +28,6 @@ var (
 	StatStorage storage.Storage
 	// MaxConcurrentIOSPushes pool to limit the number of concurrent iOS pushes
 	MaxConcurrentIOSPushes chan struct{}
+	FeedbackClient         *http.Client
 	FeedbackTransport      *http.Transport
 )
