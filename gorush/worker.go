@@ -12,7 +12,9 @@ import (
 // InitWorkers for initialize all workers.
 func InitWorkers(ctx context.Context, wg *sync.WaitGroup, workerNum int64, queueNum int64) {
 	LogAccess.Info("worker number is ", workerNum, ", queue number is ", queueNum)
-	FeedbackTransport = &http.Transport{
+
+	// feedbackTransport is transport of feedback http client
+	feedbackTransport := &http.Transport{
 		DialContext: (&net.Dialer{
 			Timeout:   30 * time.Second,
 			KeepAlive: 30 * time.Second,
@@ -27,7 +29,7 @@ func InitWorkers(ctx context.Context, wg *sync.WaitGroup, workerNum int64, queue
 	}
 	FeedbackClient = &http.Client{
 		Timeout:   time.Duration(PushConf.Core.FeedbackTimeout) * time.Second,
-		Transport: FeedbackTransport,
+		Transport: feedbackTransport,
 	}
 	QueueNotification = make(chan PushNotification, queueNum)
 	for i := int64(0); i < workerNum; i++ {
