@@ -18,9 +18,10 @@ func InitWorkers(ctx context.Context, wg *sync.WaitGroup, workerNum int64, queue
 			KeepAlive: 30 * time.Second,
 		}).DialContext,
 		ForceAttemptHTTP2:     true,
-		MaxIdleConns:          200,
+		MaxIdleConns:          100,
 		MaxIdleConnsPerHost:   100,
-		IdleConnTimeout:       90 * time.Second,
+		MaxConnsPerHost:       100,
+		IdleConnTimeout:       60 * time.Second,
 		TLSHandshakeTimeout:   10 * time.Second,
 		ExpectContinueTimeout: 1 * time.Second,
 	}
