@@ -30,6 +30,4 @@ var (
 	MaxConcurrentIOSPushes chan struct{}
 	// FeedbackClient is one http client for send feedback request
 	FeedbackClient *http.Client
-	// FeedbackTransport is transport of feedback http client
-	FeedbackTransport *http.Transport
 )
